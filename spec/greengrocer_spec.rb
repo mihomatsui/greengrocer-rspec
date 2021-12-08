@@ -40,16 +40,16 @@ RSpec.describe Greengrocer do
         { name: "れんこん", price: 350 }
       ]
     end
+
+    before { greengrocer.register_product(adding_product_params) }
+
     it "@productsの要素の数が,「product_paramsとadding_product_paramsの要素の数の和」と等しいこと" do
-      greengrocer.register_product(adding_product_params)
       expect(greengrocer.products.size).to eq 4
     end
     it "@productsの最後の要素の名前が,adding_product_paramsの最後の要素の名前と等しいこと" do
-      greengrocer.register_product(adding_product_params)
       expect(greengrocer.products[-1].name).to eq "れんこん"
     end
     it "@productsの最後の要素の名前が,adding_product_paramsの最後の要素の金額と等しいこと" do
-      greengrocer.register_product(adding_product_params)
       expect(greengrocer.products[-1].price).to eq 350
     end
   end
