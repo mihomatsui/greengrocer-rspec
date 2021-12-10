@@ -11,21 +11,20 @@ RSpec.describe User do
         ]
       end
       let(:correct_product_id_input) { "#{products.first.id}\n" }
-      it "@chosen_productのidが,productsの最初の要素のidと等しいこと" do
+      # 以下3つのexampleの処理の前に毎回実行
+      before do
         allow(ARGF).to receive(:gets).and_return correct_product_id_input
         user.choose_product(products)
+      end
+      it "@chosen_productのidが,productsの最初の要素のidと等しいこと" do
         expect(user.chosen_product.id).to eq correct_product_id_input.to_i
       end
 
       it "@chosen_productの名前が,productsの最初の要素の名前と等しいこと" do
-        allow(ARGF).to receive(:gets).and_return correct_product_id_input
-        user.choose_product(products)
         expect(user.chosen_product.name).to eq "トマト"
       end
 
       it "@chosen_productの金額が,productsの最初の要素の金額と等しいこと" do
-        allow(ARGF).to receive(:gets).and_return correct_product_id_input
-        user.choose_product(products)
         expect(user.chosen_product.price).to eq 100
       end
     end
