@@ -28,5 +28,49 @@ RSpec.describe User do
         expect(user.chosen_product.price).to eq 100
       end
     end
+
+    # 単体テスト5 異常系(choose_productメソッド)
+    context "商品一覧の最初のidより1小さい値を入力したとき" do
+      it "再入力を促すこと" do
+        user = User.new
+        products = [
+          Product.new({name: "トマト", price: 100 }),
+          Product.new({name: "きゅうり", price: 200 })
+        ]
+        wrong_product_id_input = "#{products.first.id - 1}\n"
+        correct_product_id_input = "#{products.first.id}\n"
+        prompt_re_enter_msg = /#{products.first.id}から#{products.last.id}の番号から選んでください。/
+        allow(ARGF).to receive(:gets).and_return wrong_product_id_input, correct_product_id_input
+        expect { user.choose_product(products) }.to output(prompt_re_enter_msg).to_stdout
+      end
+    end
+    context "商品一覧の最後のidより1大きい数値を入力したとき" do
+      it "再入力を促すこと" do
+        user = User.new
+        products = [
+          Product.new({name: "トマト", price: 100 }),
+          Product.new({name: "きゅうり", price: 200 })
+        ]
+        wrong_product_id_input = "#{products.last.id + 1}\n"
+        correct_product_id_input = "#{products.first.id}\n"
+        prompt_re_enter_msg = /#{products.first.id}から#{products.last.id}の番号から選んでください。/
+        allow(ARGF).to receive(:gets).and_return wrong_product_id_input, correct_product_id_input
+        expect { user.choose_product(products) }.to output(prompt_re_enter_msg).to_stdout
+      end
+    end
+    context "数値以外の文字列を入力したとき" do
+      it "再入力を促すこと" do
+        user = User.new
+        products = [
+          Product.new({name: "トマト", price: 100 }),
+          Product.new({name: "きゅうり", price: 200 })
+        ]
+        wrong_product_id_input = "hoge\n"
+        correct_product_id_input = "#{products.first.id}\n"
+        prompt_re_enter_msg = /#{products.first.id}から#{products.last.id}の番号から選んでください。/
+        allow(ARGF).to receive(:gets).and_return wrong_product_id_input, correct_product_id_input
+        expect { user.choose_product(products) }.to output(prompt_re_enter_msg).to_stdout
+      end
+    end
   end
 end
