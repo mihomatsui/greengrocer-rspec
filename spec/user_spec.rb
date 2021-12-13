@@ -58,28 +58,24 @@ RSpec.describe User do
   # 単体テスト7
   describe ".decide_quantity" do
     # 単体テスト7 正常系(decide_quantityメソッド)
+
+    shared_examples "@quantity_of_productが,入力値を整数化した値と等しいこと" do
+      it do
+        allow(ARGF).to receive(:gets).and_return correct_quantity_input
+      user.decide_quantity
+      expect(user.quantity_of_product).to eq correct_quantity_input.to_i
+      end
+    end
     context "1を入力したとき" do
       let(:user) { User.new }
       let(:correct_quantity_input) { "1\n" }
-      it "@quantity_of_productが,入力値を整数化した値と等しいこと" do
-        
-        
-        allow(ARGF).to receive(:gets).and_return correct_quantity_input
-        user.decide_quantity
-        expect(user.quantity_of_product).to eq correct_quantity_input.to_i
-      end
+      it_behaves_like "@quantity_of_productが,入力値を整数化した値と等しいこと"
     end
 
     context "2〜100の数値のいずれかを入力したとき" do
       let(:user) { User.new }
       let(:correct_quantity_input) { "#{rand(2..100)}\n" }
-      it "@quantity_of_productが,入力値を整数化した値と等しいこと" do
-        
-       
-        allow(ARGF).to receive(:gets).and_return correct_quantity_input
-        user.decide_quantity
-        expect(user.quantity_of_product).to eq correct_quantity_input.to_i
-      end
+      it_behaves_like "@quantity_of_productが,入力値を整数化した値と等しいこと"
     end
   end
 end
