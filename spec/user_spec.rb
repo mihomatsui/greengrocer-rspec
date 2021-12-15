@@ -80,31 +80,29 @@ RSpec.describe User do
     # 単体テスト7 異常系(decide_quantityメソッド)
     let(:prompt_re_enter_msg) { /1個以上選んでください。/ }
 
-    context "0を入力したとき" do
-      let(:wrong_quantity_input) { "0\n" }
-      let(:correct_quantity_input) { "1\n" }
-      it "再入力を促すこと" do
+    shared_examples "再入力を促すこと" do
+      it do
         allow(ARGF).to receive(:gets).and_return wrong_quantity_input, correct_quantity_input
         expect { user.decide_quantity }.to output(prompt_re_enter_msg).to_stdout
       end
+    end
+
+    context "0を入力したとき" do
+      let(:wrong_quantity_input) { "0\n" }
+      let(:correct_quantity_input) { "1\n" }
+      it_behaves_like "再入力を促すこと"
     end
 
     context "負の数値を入力したとき" do
       let(:wrong_quantity_input) { "#{rand(-100..-1)}\n" }
       let(:correct_quantity_input) { "1\n" }
-      it "再入力を促すこと" do
-        allow(ARGF).to receive(:gets).and_return wrong_quantity_input, correct_quantity_input
-        expect { user.decide_quantity }.to output(prompt_re_enter_msg).to_stdout
-      end
+      it_behaves_like "再入力を促すこと"
     end
 
     context "数値以外の文字列を入力したとき" do
       let(:wrong_quantity_input) { "hoge\n" }
       let(:correct_quantity_input) { "1\n" }
-      it "再入力を促すこと" do
-        allow(ARGF).to receive(:gets).and_return wrong_quantity_input, correct_quantity_input
-        expect { user.decide_quantity }.to output(prompt_re_enter_msg).to_stdout
-      end
+      it_behaves_like "再入力を促すこと" 
     end
   end
 end
