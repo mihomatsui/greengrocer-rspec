@@ -1,7 +1,7 @@
 RSpec.describe User do
+  let(:user) { User.new }
   # 単体テスト5
   describe ".choose_product" do
-    let(:user) { User.new }
     let(:products) do
       [
         Product.new({ name: "トマト", price: 100 }),
@@ -57,7 +57,6 @@ RSpec.describe User do
 
   # 単体テスト7
   describe ".decide_quantity" do
-    let(:user) { User.new }
     # 単体テスト7 正常系(decide_quantityメソッド)
 
     shared_examples "@quantity_of_productが,入力値を整数化した値と等しいこと" do
