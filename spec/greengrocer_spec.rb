@@ -88,4 +88,55 @@ RSpec.describe Greengrocer do
       expect { greengrocer.ask_quantity(chosen_product) }.to output(ask_msg).to_stdout
     end
   end
+
+  # 単体テスト8 正常系(calculate_chargesメソッド)
+  describe ".calculate_charges" do
+    let(:product_params) do
+      [
+        { name: "トマト", price: 100 },
+        { name: "きゅうり", price: 200 }
+      ]
+    end
+    let(:greengrocer) { Greengrocer.new(product_params) }
+    let(:user) { User.new }
+    let(:thank_msg) { "お買い上げありがとうございました！" }
+    
+    context "300円の商品（玉ねぎ）が4個のとき" do
+      let(:total_price_msg) { "合計金額は1200円です。" }
+      it "正しい合計金額を含む,期待する表示がされること" do
+        user.instance_variable_set("@chosen_product", Product.new({ name: "玉ねぎ", price: 300 }))
+        user.instance_variable_set("@quantity_of_product", 4)
+        expect { greengrocer.calculate_charges(user) }.to output("#{total_price_msg}\n#{thank_msg}\n").to_stdout
+      end
+    end
+
+    context "400円の商品（なす）が4個のとき" do
+      let(:total_price_msg) { "合計金額は1600円です。" }
+      it "正しい合計金額を含む,期待する表示がされること" do
+        user.instance_variable_set("@chosen_product", Product.new({ name: "なす", price: 400 }))
+        user.instance_variable_set("@quantity_of_product", 4)
+        expect { greengrocer.calculate_charges(user) }.to output("#{total_price_msg}\n#{thank_msg}\n").to_stdout
+      end
+    end
+
+    context "300円の商品（玉ねぎ）が5個のとき" do
+      let(:discount_msg) { "5個以上なので10%割引となります！" }
+      let(:discount_total_price_msg) {"合計金額は1350円です。"  }
+      it "割引した正しい合計金額を含む,期待する表示がされること" do
+        user.instance_variable_set("@chosen_product", Product.new({ name: "玉ねぎ", price: 300 }))
+        user.instance_variable_set("@quantity_of_product", 5)
+        expect { greengrocer.calculate_charges(user) }.to output("#{discount_msg}\n#{discount_total_price_msg}\n#{thank_msg}\n").to_stdout
+      end
+    end
+
+    context "400円の商品（なす）が5個のとき" do
+      let(:discount_msg) {"5個以上なので10%割引となります！"  }
+      let(:discount_total_price_msg) { "合計金額は1800円です。" } 
+      it "割引した正しい合計金額を含む,期待する表示がされること" do
+        user.instance_variable_set("@chosen_product", Product.new({ name: "なす", price: 400 }))
+        user.instance_variable_set("@quantity_of_product", 5)
+        expect { greengrocer.calculate_charges(user) }.to output("#{discount_msg}\n#{discount_total_price_msg}\n#{thank_msg}\n").to_stdout
+      end
+    end
+  end
 end
