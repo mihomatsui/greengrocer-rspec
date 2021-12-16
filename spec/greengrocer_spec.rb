@@ -1,13 +1,14 @@
 RSpec.describe Greengrocer do
+  let(:product_params) do
+    [
+      { name: "トマト", price: 100 },
+      { name: "きゅうり", price: 200 }
+    ]
+  end
+  let(:greengrocer) { Greengrocer.new(product_params) }
+  
   # 単体テスト2 正常系(Greengrocerクラスのインスタンス生成)
   describe ".initialize" do
-    let(:product_params) do
-      [
-        { name: "トマト", price: 100 },
-        { name: "きゅうり", price: 200 }
-      ]
-    end
-    let(:greengrocer) { Greengrocer.new(product_params) }
     let(:products) { greengrocer.products }
     context "インスタンスが生成されたとき" do
       it "@productsの要素の数が,product_paramsの要素の数と等しいこと" do
@@ -26,13 +27,6 @@ RSpec.describe Greengrocer do
 
   # 単体テスト3 正常系(register_productメソッド)
   describe ".register_product" do
-    let(:product_params) do
-      [
-        { name: "トマト", price: 100 },
-        { name: "きゅうり", price: 200 }
-      ]
-    end
-    let(:greengrocer) { Greengrocer.new(product_params) }
     let(:products) { greengrocer.products }
     let(:adding_product_params) do
       [
@@ -61,13 +55,7 @@ RSpec.describe Greengrocer do
     let(:product_msg1) { "#{base_id + 1}.トマト(¥100)" }
     let(:product_msg2) { "#{base_id + 2}.きゅうり(¥200)" }
     let(:msg) { "#{hello_msg}\n#{product_msg1}\n#{product_msg2}\n" }
-    let(:product_params) do
-      [
-        { name: "トマト", price: 100 },
-        { name: "きゅうり", price: 200 }
-      ]
-    end
-    let(:greengrocer) { Greengrocer.new(product_params) }
+    
     it "期待する表示がされること" do
       expect { greengrocer.disp_products }.to output(msg).to_stdout
     end
@@ -75,13 +63,6 @@ RSpec.describe Greengrocer do
 
   # 単体テスト6 正常系(ask_quantityメソッド)
   describe ".ask_quantity" do
-    let(:product_params) do
-      [
-        { name: "トマト", price: 100 },
-        { name: "きゅうり", price: 200 }
-      ]
-    end
-    let(:greengrocer) { Greengrocer.new(product_params) }
     let(:chosen_product) { Product.new( {name: "玉ねぎ", price: 300 }) }
     let(:ask_msg) { "玉ねぎですね。何個買いますか？\n" }
     it "userが選択した商品の名前を含む,期待する表示がされること" do
@@ -91,13 +72,6 @@ RSpec.describe Greengrocer do
 
   # 単体テスト8 正常系(calculate_chargesメソッド)
   describe ".calculate_charges" do
-    let(:product_params) do
-      [
-        { name: "トマト", price: 100 },
-        { name: "きゅうり", price: 200 }
-      ]
-    end
-    let(:greengrocer) { Greengrocer.new(product_params) }
     let(:user) { User.new }
     let(:thank_msg) { "お買い上げありがとうございました！" }
     
