@@ -1,6 +1,6 @@
-require "./product.rb"
-require "./greengrocer.rb"
-require "./user.rb"
+require "./lib/product.rb"
+require "./lib/greengrocer.rb"
+require "./lib/user.rb"
 
 # 商品データ
 product_params1 = [
@@ -12,14 +12,15 @@ product_params1 = [
 
 # product_params1の商品を持つ八百屋の開店
 greengrocer1 = Greengrocer.new(product_params1)
+
 # 追加商品データ
-adding_product_params1 = [
+adding_products1 = [
   { name: "ごぼう", price: 250 },
   { name: "れんこん", price: 350 }
 ]
 
 # 商品を登録（adding_product_params1 の商品を追加）
-greengrocer1.register_product(adding_product_params1)
+greengrocer1.register_product(adding_products1)
 
 # お客さんの来店
 user = User.new
