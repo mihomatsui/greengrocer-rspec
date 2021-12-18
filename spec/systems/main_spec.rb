@@ -40,20 +40,70 @@ describe ".greengrocer_program" do
   end
 
   context "最後のidの商品が4個のとき" do
+    let(:correct_product_id_input) { "#{products1.last.id}\n" }
+    let(:correct_quantity_input) { "4\n" }
+    let(:total_price_msg) { "合計金額は1400円です。" }
     it "正しい合計金額を含む,期待する表示がされること" do
-      
+      # 商品を登録（adding_product_params1 の商品を追加）
+      greengrocer1.register_product(adding_product_params1)
+      # 商品を表示
+      greengrocer1.disp_products
+      # 商品を選択
+      allow(ARGF).to receive(:gets).and_return correct_product_id_input
+      user.choose_product(products1)
+      # 個数を質問
+      greengrocer1.ask_quantity(user.chosen_product)
+      # 個数を決定
+      allow(ARGF).to receive(:gets).and_return correct_quantity_input
+      user.decide_quantity
+      # 合計金額を計算
+      expect {greengrocer1.calculate_charges(user) }.to output("#{total_price_msg}\n#{thank_msg}\n").to_stdout
     end
   end
 
   context "最初のidの商品が5個のとき" do
+    let(:correct_product_id_input) { "#{products1.first.id}\n" }
+    let(:correct_quantity_input) { "5\n" }
+    let(:discount_msg) { "5個以上なので10%割引となります！" }
+    let(:discount_total_price_msg) { "合計金額は450円です。" }
     it "割引した正しい合計金額を含む,期待する表示がされること" do
-      
+      # 商品を登録（adding_product_params1 の商品を追加）
+      greengrocer1.register_product(adding_product_params1)
+      # 商品を表示
+      greengrocer1.disp_products
+      # 商品を選択
+      allow(ARGF).to receive(:gets).and_return correct_product_id_input
+      user.choose_product(products1)
+      # 個数を質問
+      greengrocer1.ask_quantity(user.chosen_product)
+      # 個数を決定
+      allow(ARGF).to receive(:gets).and_return correct_quantity_input
+      user.decide_quantity
+      # 合計金額を計算
+      expect {greengrocer1.calculate_charges(user) }.to output("#{discount_msg}\n#{discount_total_price_msg}\n#{thank_msg}\n").to_stdout
     end
   end
 
   context "最後のidの商品が5個のとき" do
+    let(:correct_product_id_input) { "#{products1.last.id}\n" }
+    let(:correct_quantity_input) { "5\n" }
+    let(:discount_msg) { "5個以上なので10%割引となります！" }
+    let(:discount_total_price_msg) { "合計金額は1575円です。" }
     it "割引した正しい合計金額を含む,期待する表示がされること" do
-      
+      # 商品を登録（adding_product_params1 の商品を追加）
+      greengrocer1.register_product(adding_product_params1)
+      # 商品を表示
+      greengrocer1.disp_products
+      # 商品を選択
+      allow(ARGF).to receive(:gets).and_return correct_product_id_input
+      user.choose_product(products1)
+      # 個数を質問
+      greengrocer1.ask_quantity(user.chosen_product)
+      # 個数を決定
+      allow(ARGF).to receive(:gets).and_return correct_quantity_input
+      user.decide_quantity
+      # 合計金額を計算
+      expect {greengrocer1.calculate_charges(user) }.to output("#{discount_msg}\n#{discount_total_price_msg}\n#{thank_msg}\n").to_stdout
     end
   end
 end
